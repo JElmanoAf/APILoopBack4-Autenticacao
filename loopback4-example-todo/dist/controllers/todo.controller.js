@@ -1,16 +1,18 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TodoController = void 0;
+const tslib_1 = require("tslib");
 // Copyright IBM Corp. 2018,2020. All Rights Reserved.
 // Node module: @loopback/example-todo
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TodoController = void 0;
-const tslib_1 = require("tslib");
 const core_1 = require("@loopback/core");
 const repository_1 = require("@loopback/repository");
 const rest_1 = require("@loopback/rest");
 const models_1 = require("../models");
 const repositories_1 = require("../repositories");
+const authentication_1 = require("@loopback/authentication");
+// ------------------------------------
 let TodoController = class TodoController {
     constructor(todoRepository, geoService) {
         this.todoRepository = todoRepository;
@@ -201,6 +203,8 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], TodoController.prototype, "updateAll", null);
 TodoController = tslib_1.__decorate([
+    authentication_1.authenticate('jwt') // <---- Apply the @authenticate decorator at the class level
+    ,
     tslib_1.__param(0, repository_1.repository(repositories_1.TodoRepository)),
     tslib_1.__param(1, core_1.inject('services.Geocoder')),
     tslib_1.__metadata("design:paramtypes", [repositories_1.TodoRepository, Object])

@@ -1,11 +1,14 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TodoListApplication = void 0;
+const tslib_1 = require("tslib");
 // Copyright IBM Corp. 2018,2020. All Rights Reserved.
 // Node module: @loopback/example-todo
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TodoListApplication = void 0;
-const tslib_1 = require("tslib");
+const authentication_1 = require("@loopback/authentication");
+const authentication_jwt_1 = require("@loopback/authentication-jwt");
+const datasources_1 = require("./datasources");
 const boot_1 = require("@loopback/boot");
 const repository_1 = require("@loopback/repository");
 const rest_1 = require("@loopback/rest");
@@ -36,6 +39,12 @@ class TodoListApplication extends boot_1.BootMixin(service_proxy_1.ServiceMixin(
                 nested: true,
             },
         };
+        // Mount authentication system
+        this.component(authentication_1.AuthenticationComponent);
+        // Mount jwt component
+        this.component(authentication_jwt_1.JWTAuthenticationComponent);
+        // Bind datasource
+        this.dataSource(datasources_1.DbDataSource, authentication_jwt_1.UserServiceBindings.DATASOURCE_NAME);
         this.setupLogging();
     }
     setupLogging() {
